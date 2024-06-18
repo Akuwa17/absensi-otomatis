@@ -8,29 +8,45 @@ $jam      = date('H');
 $menit    =date('i');
 $status= 1;
 $mode = "masuk";
-if($jam >= 6 && $menit >=0){
-    $status =1;
-    $mode ="masuk";
-}
-elseif ($jam >= 10 && $menit >=10) {
-    $status =2;
-    $mode ="istirahat"; 
-}
-elseif ($jam >= 10 && $menit >=30) {
-    $status =3;
-    $mode ="kembali"; 
-}
-elseif ($jam >= 14 && $menit >=30) {
-    $status =4;
-    $mode ="pulang"; 
-}
-
+// switch ($jam) {
+//     case 5:
+       
+//         break;
+//     case 6:
+//         $status= 1;
+//         $mode = "masuk";
+//         break;
+//     case 15:
+//         $status= 2;
+//         $mode = "pulang";
+//         break;
+//     case 16:
+//         $status= 2;
+//         $mode = "pulang";
+//         break;
+//     case 17:
+//         $status= 2;
+//         $mode = "pulang";
+//         break;
+//     case 22:
+//         $status= 2;
+//         $mode = "pulang";
+//         break;
+    
+//     default:
+//       $status= 1;
+//         $mode = "masuk";
+//         break;
+// }
 
 $simpan = mysqli_query($konek, "update status set mode='$status'");
 // baca tabel tmprfid
 $baca_kartu = mysqli_query($konek, "select * from tmprfid");
 $data_kartu = mysqli_fetch_array($baca_kartu);
-$nokartu    = $data_kartu['nokartu'];
+if ($data_kartu != NULL) {
+ 
+    $nokartu    = $data_kartu['nokartu'];
+}
 
 
 ?>
@@ -38,7 +54,10 @@ $nokartu    = $data_kartu['nokartu'];
 
 
 <div class="container-fluid" style="text-align: center;">
-<?php if($nokartu=="") { ?>
+<?php 
+$baca_kartu = mysqli_query($konek, "select * from tmprfid");
+$data_kartu = mysqli_fetch_array($baca_kartu);
+if($data_kartu == NULL) { ?>
 
 
 <h3>Absen : <?php echo $mode; ?><br>
@@ -53,6 +72,8 @@ $nokartu    = $data_kartu['nokartu'];
          echo "<h1></h1>Maaf! kartu tidak Dikenali</h1>";
         else
         {
+            $hadir='hadir';
+            $bolos='bolos';
             // ambil nama karyawan
             $data_karyawan = mysqli_fetch_array($cari_karyawan);
             $nama          = $data_karyawan['nama'];
@@ -71,7 +92,8 @@ $nokartu    = $data_kartu['nokartu'];
             if($status == 1)
             {
                 echo "<h1>Selamat Datang <br> $nama</h1>";
-                mysqli_query($konek, "insert into absensi(nokartu, tanggal, jam_masuk)values('$nokartu', '$tanggal', '$jam')");
+                mysqli_query($konek, "insert into absensi(nokartu, tanggal, jam_masuk, status)values('$nokartu', '$tanggal', '$jam','$bolos')");
+              
               
             }
             else
@@ -80,21 +102,10 @@ $nokartu    = $data_kartu['nokartu'];
 if($status == 2)
 {
       echo "<h1>Selamat Istirahat <br> $nama</h1>";
-      mysqli_query($konek, "update absensi set jam_istirahat='$jam' where nokartu='$nokartu' and tanggal='$tanggal'");
+      mysqli_query($konek, "update absensi set jam_pulang='$jam', status='$hadir' where nokartu='$nokartu' and tanggal='$tanggal'");
 
 }
-else if($status == 3)
-{
-      echo "<h1>Selamat Datang Kembali <br> $nama</h1>";
-      mysqli_query($konek, "update absensi set jam_kembali='$jam' where nokartu='$nokartu' and tanggal='$tanggal'");
 
-}
-else if($status == 4)
-{
-      echo "<h1>Selamat Jalan <br> $nama</h1>";
-      mysqli_query($konek, "update absensi set jam_pulang='$jam' where nokartu='$nokartu' and tanggal='$tanggal'");
-
-               }
            }
 
         }

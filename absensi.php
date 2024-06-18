@@ -19,9 +19,8 @@
                     <th style="text-align: center;">Nama</th>
                     <th style="text-align: center;">Tanggal</th>
                     <th style="text-align: center;">Jam Masuk</th>
-                    <th style="text-align: center;">Jam Istirahat</th>
-                    <th style="text-align: center;">jam Kembali</th>
                     <th style="text-align: center;">Jam Pulang</th>
+                    <th style="text-align: center;">status</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,7 +34,7 @@
                 $tanggal = date('Y-m-d');
 
                 // filter absensi berdasarkan tanggal saat ini
-                $sql = mysqli_query($konek, "select b.nama, a.tanggal, a.jam_masuk, a.jam_istirahat, a.jam_kembali,
+                $sql = mysqli_query($konek, "select b.nama, a.tanggal, a.jam_masuk, a.status,
 a.jam_pulang from absensi a,karyawan b where a.nokartu=b.nokartu and a.tanggal='$tanggal'");
 
                 $no = 0;
@@ -48,9 +47,8 @@ a.jam_pulang from absensi a,karyawan b where a.nokartu=b.nokartu and a.tanggal='
                         <td> <?php echo $data['nama']; ?> </td>
                         <td> <?php echo $data['tanggal']; ?></td>
                         <td> <?php echo $data['jam_masuk']; ?></td>
-                        <td> <?php echo $data['jam_istirahat']; ?></td>
-                        <td> <?php echo $data['jam_kembali']; ?></td>
                         <td> <?php echo $data['jam_pulang']; ?></td>
+                        <td> <?php echo $data['status']; ?></td>
 
                     </tr>
                 <?php } ?>

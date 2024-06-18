@@ -8,7 +8,7 @@
             <li><a href="datakaryawan.php">data</a></li>  
             <li><a href="absensi.php">rekap</a></li>  
             <li><a href="scan.php">scan</a></li> 
-             <li><a href="setting.php">home</a></li>
+            <li><a href="jam.php">jam</a></li> 
         </ul>
     </div>
 </nav>
